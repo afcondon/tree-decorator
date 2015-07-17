@@ -1,0 +1,32 @@
+{
+  "name": "decorator",
+  "version": "0.0.0",
+  "homepage": "https://github.com/afcondon/tree-decorator",
+  "authors": [
+    "Andrew Condon <andrew.condon@gmail.com>"
+  ],
+  "description": "purescript port of Haskell fragment",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "purescript",
+    "tree",
+    "traversable",
+    "foldable"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "purescript-tuples": "~0.4.0",
+    "purescript-console": "~0.1.0",
+    "purescript-transformers": "~0.6.1",
+    "purescript-enums": "~0.5.0"
+  }
+}

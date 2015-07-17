@@ -1,0 +1,5 @@
+bower_components
+.psci
+develop
+node_modules
+transpiled
