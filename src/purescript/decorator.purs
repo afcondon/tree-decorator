@@ -24,17 +24,17 @@ instance simpleEnumChar :: SimpleEnum Char where
   succ c = c
   pred c = c -- dummy implementations just to test typing
 
-{-
 postIncrement :: forall s. (SimpleEnum s) => State s s
 postIncrement = do val <- get
                    put (succ val)
                    return val
 
 -- Works for any Traversable, not just trees!
-tag :: forall s t. (SimpleEnum s, Traversable t) => s -> t a -> t { node :: a, tag :: s }    -- no native tuples in Purescript!
+tag :: forall s t a. (SimpleEnum s, Traversable t) => s -> t a -> t { node :: a, tag :: s }    -- no native tuples in Purescript!
 tag init tree = evalState (traverse step tree) init
     where step a = do tag <- postIncrement
                       return { node: a, tag: tag}
+{-
 -}
 
 -- now let's make our own Tree with no deriving and see how that works
@@ -90,5 +90,8 @@ main = do
   --let bar = tag 0 fooMyTree
   print fooMyTree
   let bar = succ 0
+  let qux = pred 0
   let baz = succ 'a'
   print bar
+  print qux
+  print baz
