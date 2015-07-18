@@ -16,10 +16,13 @@ class SimpleEnum a where
   succ :: a -> a
   pred :: a -> a
 
-instance intEnum :: SimpleEnum Int where
+instance simpleEnumInt :: SimpleEnum Int where
   succ i = i + 1
   pred i = i - 1
 
+instance simpleEnumChar :: SimpleEnum Char where
+  succ c = c
+  pred c = c -- dummy implementations just to test typing
 
 {-
 postIncrement :: forall s. (SimpleEnum s) => State s s
@@ -85,4 +88,7 @@ fooMyTree = Node (Node Empty "left" Empty) "center" (Node Empty "right" Empty)
 main = do
   log "hello world"
   --let bar = tag 0 fooMyTree
-  print "not trying to print bar yet"
+  print fooMyTree
+  let bar = succ 0
+  let baz = succ 'a'
+  print bar
