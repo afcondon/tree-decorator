@@ -9,12 +9,11 @@ import Data.Foldable
 import Data.Traversable
 import Data.Enum
 import Data.Tuple
-import Data.Maybe
 import Data.Monoid
 
 postIncrement :: forall s. (Enum s) => State s s
 postIncrement = do val <- get
-                   put $ fromMaybe (succ val)
+                   put $ fromMaybe(succ val)
                    return val
 
 -- Works for any Traversable, not just trees!
@@ -35,23 +34,12 @@ instance foldableMyTree :: Foldable MyTree where
   foldMap f Empty = mempty
   foldMap f (Leaf x) = f x
   foldMap f (Node l k r) = foldMap f l `append` f k `append` foldMap f r   -- append from Semigroup instead of mappend from monoid
--- foldl & foldr required in Purescript but not in Haskell
--- foldr :: forall a b. (a -> b -> b) -> b -> f a -> b
-  foldr                  f               z    Empty = z
-  foldr                  f               z   (Leaf x) = f x z
-  foldr                  f               z   (Node l k r) = left
-    where
-      right  = foldr  f z r     -- b
-      center = f k right        -- a -> b -> b 
-      left   = foldr f center l -- b
---  foldl :: forall a b. (b -> a -> b) -> b -> f a -> b
-  foldl                  f                z    Empty = z
-  foldl                  f                z   (Leaf x) = f z x
-  foldl                  f                z   (Node l k r) = right
-    where
-      left   = foldl f z l       -- b
-      center = f left k          -- b -> a -> b
-      right  = foldl f center r  -- b             
+  foldr f z Empty = z
+  foldr f z (Leaf x) = f x z
+  foldr f z (Node l k r) = foldr f (f k (foldr f z r)) l
+  foldl f z Empty = z
+  foldl f z (Leaf x) = f x z
+  foldl f z (Node l k r) = foldl f (f k (foldl f z l)) r                   -- foldl & foldr required in Purescript
 
 instance traversableMyTree :: Traversable MyTree where
   traverse f Empty = pure Empty
@@ -72,5 +60,4 @@ fooMyTree :: MyTree String
 fooMyTree = Node (Node Empty "left" Empty) "center" (Node Empty "right" Empty)
 
 main = do
-  log "hello world"
-  --print $ tag 0 fooMyTree
+  print $ tag 0 fooMyTree
